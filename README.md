@@ -20,6 +20,7 @@ There are three modules making up the implementation:
 - Only two users connect at any one time. While the server and client have been designed to support multi game sessions, further work would be required to make this completely work.
 - The algorithm to solve tile connects is very simple. A design is in place that allows that algorithm to be swapped with something more efficient. For example, there are other approaches to solving tile connects like the use of bitmasks, or graph traversal solutions.
 - The server is a single instance only. The design allows for swapping the currentin memory implementation of the game data with an external data store for example, database or redis server.
+- There is no security
 
 ## Build
 
@@ -53,6 +54,21 @@ In the Connect Five implementation a `GameEvent` is sent and received over all c
 ### Game Setup Phase
 
 ![Game Setup](/documentation/GameSetup.png "Game setup")
+
+- (1) Player Alice initiates a game on the client. An initiate request is sent to the server.
+- (2) Player Bob decides to join a game on another client. A join request is sent to the server.
+- (3) A Ready response is received over the general game channel. Each player is connected to a specific game channel that will receive that game events only.
+
+### Game Play Phase
+
+![Game Play](/documentation/GamePlay.png "Game play")
+
+- (1) The initiator always starts play. So in this case, Alice is offered a move. She makes a decision and a move request is sent to the server.
+- (2) All game players receive a Board status updates from the server.
+- (3) The other player is offered a move. This continues in round robin fashion.
+- (4) If a player, for instance Bob, makes an invalid move, an Invalid response is recieved from the server.
+
+Any of the players can decide to end the game at the time of their move.
 
 ### Event Overview
 
