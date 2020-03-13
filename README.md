@@ -50,6 +50,10 @@ In this implementation I am using Spring Boot implementation of websockets, and 
 The server can recieve messages over websocket channels from the client, and respond with messages.
 In the Connect Five implementation a `GameEvent` is sent and received over all channels, containing different "action" depending on the outcome. For example, when a player, wants to start a game, a `GameEvent` with an `InitiateGameActionRequest` action is sent to the server on the `/topic/games/` topic. The server repiles with a `GameOpenActionResponse` action to the client. The client can decide what happens on each response, for example, in this case, the client waits for more players to join. 
 
+### Game Setup Phase
+
+![Game Setup](/documentation/GameSetup.png "Game setup")
+
 ### Event Overview
 
 | Channel   | Endpoint                |Request                        | Response                          |
